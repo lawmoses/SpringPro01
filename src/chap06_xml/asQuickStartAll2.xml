@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+   xmlns:aop="http://www.springframework.org/schema/aop" 
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/aop
+       http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+
+
+<!-- 영진형님이 준 xml 코드  -->
+
+	<bean id="profiler" class="chap06_02.Profiler" />
+	<bean id="cache" class="chap06_03.ArticleCacheAdvice" />
+	<bean id="articleDao" class="chap06_03.MemoryArticleDao" />
+	
+	<aop:config>
+	   <aop:aspect id="traceAspect" ref="profiler">
+	      <aop:pointcut expression="execution(public * chap06..*(..))" id="publicMethod"/>
+	      <aop:around pointcut-ref="publicMethod" method="trace" />
+	   </aop:aspect>
+	</aop:config>
+	
+	<!-- ???  -->
+	<aop:config>
+	   <aop:aspect id="cacheAspect" ref="cache">
+	      <aop:around method="cache" pointcut="execution(public * *..ReadArticleService.*(..))" />
+	   </aop:aspect>
+	</aop:config>
+	
+	<bean id="writeArticleService" class="chap06_02.WriteArticleServiceImpl">
+	   <constructor-arg> 
+	   		<ref bean="articleDao" />
+	   </constructor-arg>
+	</bean>
+	
+	<bean id="readArticleService" class="chap06_03.ReadArticleServiceImpl">
+	   <property name="articleDao" ref="articleDao"></property>
+	</bean>
+	
+
+</beans>

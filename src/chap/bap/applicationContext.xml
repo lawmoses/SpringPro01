@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans   
+       http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	
+	
+     <bean id="person1"  class="ms01.Daughter">
+		<property name="friend">
+			<value>홍자매</value>
+		</property>
+	</bean>
+	 <bean id="person2"  class="ms01.Sun">
+		<property name="friend">
+			<value>홍길동</value>
+		</property>
+	</bean>
+	
+	
+	<bean id="party" 
+			class="ms01.Party">
+		<property name="food">
+			<list>
+				<value>라면</value>
+				<value>떡복기</value>
+				<!-- <value>탕수육</value>
+				<value>자장면</value> -->
+			</list>
+		</property>
+		<property name="person">
+			<ref bean="person2" />
+		</property>
+	</bean>
+
+</beans>
+

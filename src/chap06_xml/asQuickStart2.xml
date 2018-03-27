@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/aop
+       http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+	<bean id="cache" class="chap06_03.ArticleCacheAdvice"></bean> <!-- cache -->
+	
+	
+	<aop:config>
+		<aop:aspect id="cacheAspect" ref="cache"> <!-- cache -->
+			<aop:around method="cache" pointcut="execution(public * * ..ReadArticleService.*(..))"/> <!-- cache -->
+		</aop:aspect>
+	</aop:config>
+	
+	
+	<bean id="readArticleService" class="chap06_03.ReadArticleServiceImpl">
+		<property name="articleDao" ref="articleDao"></property>
+	</bean>
+
+	<bean id="articleDao" class="chap06_03.MemoryArticleDao"></bean>
+
+
+</beans>
+

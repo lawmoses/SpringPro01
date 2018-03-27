@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+		xmlns:aop="http://www.springframework.org/schema/aop" 
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/aop
+		http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+	
+	<!-- Advice 클래스를 빈으로 등록 -->
+	<bean id="washHand" class="bap.WashHandAdvice" />
+	<bean id="desert" class="bap.DesertAdvice" />
+	
+	<bean id="washHand2" class="bap.WashHandAdvice2" />
+	<bean id="desert2" class="bap.DesertAdvice2" />
+	
+	
+		
+	
+		<aop:config>
+		   <aop:aspect id="washHandAspect" ref="washHand" order="2">
+		      <aop:pointcut expression="within(bap.*)" id="publicMethod"/>
+		      <aop:before method="washHand" pointcut-ref="publicMethod"/>
+		   </aop:aspect>
+		</aop:config>
+		
+		<aop:config>
+		   <aop:aspect id="washHandAspect" ref="washHand2" order="1">
+		      <aop:pointcut expression="within(bap.*)" id="publicMethod"/>
+		      <aop:before method="washHand2" pointcut-ref="publicMethod"/>
+		   </aop:aspect>
+		</aop:config>
+		
+	
+	
+	
+	<aop:config>
+   		<aop:aspect id="desertAspect" ref="desert" order="2">
+      		<aop:pointcut expression="within(bap.*)" id="publicMethod"/>
+      		<aop:after method="desert" pointcut-ref="publicMethod"/>
+   		</aop:aspect>
+	</aop:config>
+	
+	<aop:config>
+   		<aop:aspect id="desertAspect" ref="desert2" order="1">
+      		<aop:pointcut expression="within(bap.*)" id="publicMethod"/>
+      		<aop:after method="desert2" pointcut-ref="publicMethod"/>
+   		</aop:aspect>
+	</aop:config>
+	
+	<bean id="bap" class="bap.Bap" />
+	
+	
+	<bean id="insert" class="bap.Bap">
+		<property name="meal" value="아웃백 스테이크" />
+		<property name="kind" value="저녁식사" />
+	</bean>
+
+
+
+</beans>
+
+
